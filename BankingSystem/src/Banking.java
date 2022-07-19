@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class Banking {
@@ -6,15 +7,20 @@ public class Banking {
 
     public static Client endUser;
     public static void main(String[] args) {
-        showWelcomeScreen();
-        if(endUser!=null){
-            postLoginMenu();
-        }else {
-            preLoginMenu();
+        try{
+            showWelcomeScreen();
+            if(endUser!=null){
+                postLoginMenu();
+            }else {
+                preLoginMenu();
+            }
+        } catch (Exception ex){
+            System.out.println(ex);
         }
+
     }
 
-    private static void preLoginMenu(){
+    private static void preLoginMenu() throws ParseException {
         showPreLoginMenu();
         int input = in.nextInt();
         switch (input){
@@ -24,8 +30,8 @@ public class Banking {
                 //To REMOVE -
 //                currentUser.name = "vv";
 //                currentUser.password ="vv";
-                currentUser.name = "vv";
-                currentUser.password ="vv";
+//                currentUser.name = "vv";
+//                currentUser.password ="vv";
                 currentUser.loginUser();
                 postLoginMenu();
                 break;
@@ -39,7 +45,7 @@ public class Banking {
         }
 
     }
-    private static void postLoginMenu(){
+    private static void postLoginMenu() throws ParseException {
         int input = 0;
         while(input!=4) {
             showPostLoginMenu();

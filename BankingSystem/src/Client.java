@@ -1,6 +1,3 @@
-import com.opencsv.bean.util.OpencsvUtils;
-
-import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -152,7 +149,7 @@ public class Client {
         }
     }
 
-    public void loginUser(){
+    public void loginUser() throws ParseException {
         String usernameInput;
         String passwordInput;
         System.out.println("***************************************************");
@@ -166,10 +163,11 @@ public class Client {
 
     }
 
-    private void validateUser(String username, String password){
+    private void validateUser(String username, String password) throws ParseException {
+        //get the user data
+        getUserData(username);
         if(this.name.equals(username) && this.password.equals(password)){
             System.out.println("Login Successful!!");
-            //get the user data
         }else{
             System.err.println("Login Failed!!");
         }
@@ -191,5 +189,20 @@ public class Client {
             case 7:
                 break;
         }
+    }
+
+    private void getUserData(String username) throws ParseException {
+        ArrayList<String> clientData = Helper.getClientData(username);
+        if (clientData.contains(username)){
+            this.name = clientData.get(0);
+            this.phoneNumber = clientData.get(1);
+            this.email = clientData.get(2);
+            this.dateOfBirth = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy",Locale.ENGLISH).parse(clientData.get(3));
+            this.password = clientData.get(4);
+            this.securityQuestion = clientData.get(5);
+            this.securityAnswer = clientData.get(6);
+            this.postalCode = clientData.get(7);
+        }
+
     }
 }

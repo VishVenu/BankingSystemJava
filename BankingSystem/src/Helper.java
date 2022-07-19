@@ -1,11 +1,8 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class Helper {
-    static String clientCSVFilePath = "BankingSystem/src/clients.csv";
+    static String clientCSVFilePath = "clients.csv";
     private static List<List<String>> readFromCSV(String filePath) {
         List<List<String>> records = new ArrayList<>();
 
@@ -34,9 +31,18 @@ public class Helper {
         return values;
     }
 
-    public static void getClientData() {
+    public static ArrayList<String> getClientData(String email) {
 
-        List<List<String>> transactions = readFromCSV(clientCSVFilePath);
+        List<List<String>> clients = readFromCSV(clientCSVFilePath);
+        ArrayList<String> activeClient = new ArrayList<>();
+        for (List<String> client: clients) {
+            if (client.contains(email)){
+                activeClient = (ArrayList<String>) client;
+                System.out.println(activeClient);
+                break;
+            }
+        }   
+        return activeClient;
     };
 
     public static void setClientData(String name, String phoneNumber, String emailID, String password,
@@ -48,13 +54,15 @@ public class Helper {
                     String.valueOf(dateOfBirth), password,
                     securityQuestion, securityAnswer, postalCode);
 
-            FileWriter writer = new FileWriter("clients.csv");
+            FileWriter writer = new FileWriter(clientCSVFilePath, true);
 
-            // header
-            writer.write("Name,PhoneNumber,EmailID,DateOfBirth,Password,SecurityQuestion,SecurityAnswer,PostalCode");
-
+            //avoid duplication
+//            // header
+//            writer.write("Name,PhoneNumber,EmailID,DateOfBirth,Password,SecurityQuestion,SecurityAnswer,PostalCode");
+//            writer.write('\n');
             // write data
-            writer.write(String.join(",", client));
+            writer.append(String.join(",", client));
+            writer.append('\n');
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
