@@ -25,34 +25,79 @@ public class Client {
     public void createUser() throws ParseException {
         System.out.println("****Please follow the steps to register as a new user****");
         System.out.print("Enter fullname ");
-        name = in.nextLine();
+        this.name = in.nextLine();
         System.out.print("Enter phone number: ");
-        phoneNumber = in.nextLine();
+        this.phoneNumber = in.nextLine();
         System.out.print("Enter emailID: ");
-        email = in.nextLine();
+        this.email = in.nextLine();
         System.out.print("Enter postal code: ");
-        postalCode = in.nextLine();
+        this.postalCode = in.nextLine();
         System.out.print("Enter date of birth(dd/MM/yyyy): ");
-        dateOfBirth = new SimpleDateFormat("dd/MM/yyyy").parse(in.nextLine());
+        this.dateOfBirth = new SimpleDateFormat("dd/MM/yyyy").parse(in.nextLine());
         System.out.print("Enter password: ");
-        password = in.nextLine();
+        this.password = in.nextLine();
         System.out.print("Enter security question: ");
-        securityQuestion = in.nextLine();
+        this.securityQuestion = in.nextLine();
         System.out.print("Enter security answer: ");
-        securityAnswer = in.nextLine();
-
-        System.out.println("Enter Y to proceed or any other key to return to home screen.");
-        String choice = in.nextLine();
-        //choice.toUpperCase() == "Y" ? setUserData() && Banking.main() : Banking.main();
-
+        this.securityAnswer = in.nextLine();
     }
 
-    public void updateUser(){
+    public void updateUser() throws ParseException{
+        System.out.println("****Please select the value to update****");
+        System.out.println("1. Full name");
+        System.out.println("2. Phone number");
+        System.out.println("3. EmailID");
+        System.out.println("4. Postal code");
+        System.out.println("5. Date of birth");
+        System.out.println("6. Password");
+        System.out.println("7. Security question");
+        System.out.println("8. Security answer");
+        System.out.println("9. Go back");
+
+        int userinput = in.nextInt();
+        switch(userinput){
+            case 1:
+                System.out.print("Enter fullname ");
+                this.name = in.nextLine();
+                break;
+            case 2:
+                System.out.print("Enter phone number: ");
+                this.phoneNumber = in.nextLine();
+                break;
+            case 3:
+                System.out.print("Enter emailID: ");
+                this.email = in.nextLine();
+                break;
+            case 4:
+                System.out.print("Enter postal code: ");
+                this.postalCode = in.nextLine();
+                break;
+            case 5:
+                System.out.print("Enter date of birth(dd/MM/yyyy): ");
+                this.dateOfBirth = new SimpleDateFormat("dd/MM/yyyy").parse(in.nextLine());
+                break;
+            case 6:
+                System.out.print("Enter password: ");
+                this.password = in.nextLine();
+                break;
+            case 7:
+                System.out.print("Enter security question: ");
+                this.securityQuestion = in.nextLine();
+                break;
+            case 8:
+                System.out.print("Enter security answer: ");
+                this.securityAnswer = in.nextLine();
+                break;
+            default:
+                return;
+        }
 
     }
 
     public void resetPassword(){
-
+        //add security check here
+        this.password = "123";
+        System.out.println("Your password has been reset to \"123\".\nPlease use update user option to update your password.");
     }
 
     public void createAccount(){
@@ -79,7 +124,23 @@ public class Client {
     }
 
     public void loginUser(){
+        String usernameInput;
+        String passwordInput;
+        System.out.println("***************************************************");
+        System.out.println("LOGIN");
+        System.out.println("Username:");
+        usernameInput = in.next();
+        System.out.println("Password:");
+        passwordInput = in.next();
+        validateUser(usernameInput,passwordInput);
+    }
 
+    private void validateUser(String username, String password){
+        if(this.name.equals(username) && this.password.equals(password)){
+            System.out.println("Login Successful!!");
+        }else{
+            System.err.println("Login Failed!!");
+        }
     }
 
     public void performBankingTransactions(){
