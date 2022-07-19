@@ -22,7 +22,7 @@ public class Client {
 
     public void createUser() throws ParseException {
         System.out.println("****Please follow the steps to register as a new user****");
-        System.out.print("Enter fullname ");
+        System.out.print("Enter fullname: ");
         this.name = in.nextLine();
         System.out.print("Enter phone number: ");
         this.phoneNumber = in.nextLine();
@@ -38,6 +38,8 @@ public class Client {
         this.securityQuestion = in.nextLine();
         System.out.print("Enter security answer: ");
         this.securityAnswer = in.nextLine();
+        Helper.setClientData(this.name, this.phoneNumber, this.email, this.password, this.securityQuestion, this.securityAnswer,
+                this.postalCode, this.dateOfBirth);
     }
 
     public void updateUser() throws ParseException {
