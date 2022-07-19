@@ -48,20 +48,13 @@ public class Helper {
                     String.valueOf(dateOfBirth), password,
                     securityQuestion, securityAnswer, postalCode);
 
-            File file = new File(clientCSVFilePath);
-            if(!file.exists()){
-                file.createNewFile();
-            }
-
-            BufferedWriter writer = Files.newBufferedWriter(Path.of(clientCSVFilePath));
+            FileWriter writer = new FileWriter("clients.csv");
 
             // header
             writer.write("Name,PhoneNumber,EmailID,DateOfBirth,Password,SecurityQuestion,SecurityAnswer,PostalCode");
-            writer.newLine();
 
             // write data
             writer.write(String.join(",", client));
-            writer.newLine();
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
