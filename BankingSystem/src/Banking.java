@@ -1,5 +1,3 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Banking {
@@ -10,21 +8,26 @@ public class Banking {
     public static void main(String[] args) {
         showWelcomeScreen();
         if(endUser!=null){
-            PostLoginMenu();
+            postLoginMenu();
         }else {
-            PreLoginMenu();
+            preLoginMenu();
         }
     }
 
-    private static void PreLoginMenu(){
+    private static void preLoginMenu(){
         showPreLoginMenu();
         int input = in.nextInt();
         switch (input){
             case 1:
-                NewRegistration();
+                newRegistration();
             case 2:
+                //To REMOVE -
+//                currentUser.name = "vv";
+//                currentUser.password ="vv";
+                currentUser.name = "vv";
+                currentUser.password ="vv";
                 currentUser.loginUser();
-                PostLoginMenu();
+                postLoginMenu();
                 break;
             case 3:
                 currentUser.resetPassword();
@@ -36,17 +39,32 @@ public class Banking {
         }
 
     }
-    private static void PostLoginMenu(){
-        showPostLoginMenu();
-        int input = in.nextInt();
-        switch (input) {
-            case 1:
-                UpdateUserDetails();
-                break;
+    private static void postLoginMenu(){
+        int input = 0;
+        while(input!=4) {
+            showPostLoginMenu();
+            input = in.nextInt();
+            switch (input) {
+                case 1:
+                    updateUserDetails();
+                    break;
+                case 2:
+                    currentUser.createAccount();
+                    break;
+                case 3:
+                    currentUser.performBankingTransactions();
+                    break;
+                case 4:
+                    preLoginMenu();
+                    break;
+                default:
+                    System.out.println("Please select a valid option.");
+                    break;
+            }
         }
     }
 
-    private static void NewRegistration() {
+    private static void newRegistration() {
         try {
             currentUser.createUser();
         } catch (Exception ex) {
@@ -54,9 +72,10 @@ public class Banking {
         }
     }
 
-    private static void UpdateUserDetails(){
+    private static void updateUserDetails(){
         try {
             currentUser.updateUser();
+            showPostLoginMenu();
         } catch (Exception ex) {
             System.err.println(ex);
         }
