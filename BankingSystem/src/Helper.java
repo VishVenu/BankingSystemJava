@@ -6,19 +6,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
 
 public class Helper {
     static String clientCSVFilePath = "clients.csv";
     static String transactionCSVFilePath = "./files/transactions.csv";
 
-    private static List<List<String>> readFromCSV(String filePath) {
-        List<List<String>> records = new ArrayList<>();
+
+    private static List<String> readFromCSV(String filePath) {
+        List<String> records = new ArrayList<String>();
 
         try {
             Scanner scanner = new Scanner(new File(filePath));
 
             while (scanner.hasNextLine()) {
-                records.add(getRecordFromLine(scanner.nextLine()));
+                String row = scanner.nextLine();
+                records.add(row);
             }
 
             return records;
@@ -28,16 +31,28 @@ public class Helper {
         }
     }
 
-    private static List<String> getRecordFromLine(String line) {
-        List<String> values = new ArrayList<String>();
-        try (Scanner rowScanner = new Scanner(line)) {
-            rowScanner.useDelimiter(",");
-            while (rowScanner.hasNext()) {
-                values.add(rowScanner.next());
+    // TODO: display output enhancement.
+    public static void getTransactionData() {
+        List<String> transactions = readFromCSV(transactionCSVFilePath);
+
+        if (transactions.isEmpty()) {
+            System.out.println("No transactions found!");
+        } else {
+            System.out.println("Getting transaction history....");
+            for (String element : transactions) {
+                System.out.println(element);
+
+                element.split(",");
             }
         }
-        return values;
     }
+
+
+        public static void setTransactionData(double amount, String eventDescription, TransactionType eventType, String transactionID, LocalDateTime date, String account) {
+            try {
+                // create a list of objects.
+                List<String> transaction = Arrays.asList(String.valueOf(transactionID), String.valueOf(date), String.valueOf(eventType),account, eventDescription, String.valueOf(amount));
+                BufferedReader br = new BufferedReader(new FileReader(transactionCSVFilePath));
 
     public static ArrayList<String> getClientData(String email) {
 
@@ -78,8 +93,41 @@ public class Helper {
 
     public static void getTransactionData() {
 
-        List<List<String>> transactions = readFromCSV(transactionCSVFilePath);
+                System.out.println(br.readLine());
 
+
+                if (br.readLine() == null) {
+                    BufferedWriter writer = Files.newBufferedWriter(Path.of(transactionCSVFilePath));
+                    // header for transactions csv.
+                    writer.write("Id,Date,Type,Account,Description,Amount");
+                    writer.newLine();
+                    // write data
+                    writer.write(String.join(",", transaction));
+                    writer.newLine();
+                    writer.close();
+                } else {
+                    do {
+                        String line = br.readLine();
+                        System.out.println("line" + line);
+
+                        if (line == null) {
+                            FileWriter fw = new FileWriter(transactionCSVFilePath,true);
+                            BufferedWriter writer = new BufferedWriter(fw);
+                            writer.write(String.join(",", transaction));
+
+                            writer.newLine();
+                            writer.close();
+                            break;
+                        }
+                    } while (true);
+                }
+                System.out.println("Transaction saved in csv.");
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
     }
 
     public static void setTransactionData(double amount, String eventDescription, TransactionType
