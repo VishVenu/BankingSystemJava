@@ -158,6 +158,7 @@ public class Client {
 
         Account newAccount = new Account();
         newAccount.name = this.name;
+        newAccount.accno = generatedString;
         newAccount.acc_type = accType;
         System.out.print("Enter Balance: ");
         newAccount.balance = in.nextLong();
@@ -223,7 +224,7 @@ public class Client {
                     chequingAccount.depositAmount();
                     break;
                 case 6:
-                    //show transaction
+                    chequingAccount.getTransactionHistory();
                     break;
                 case 7:
                     break;

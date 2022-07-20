@@ -146,7 +146,7 @@ public class Helper {
 //    }
 
 
-    public static void setTransactionData(double amount, String eventDescription, TransactionType eventType, String transactionID, LocalDateTime date, String account) {
+    public static void setTransactionData(long amount, String eventDescription, TransactionType eventType, String transactionID, LocalDateTime date, String account) {
         try {
             // create a list of objects.
             List<String> transaction = Arrays.asList(String.valueOf(transactionID), String.valueOf(date), String.valueOf(eventType),account, eventDescription, String.valueOf(amount));

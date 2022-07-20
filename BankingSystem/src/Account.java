@@ -1,5 +1,7 @@
+import java.util.Random;
 import java.util.Scanner;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class Account {
     public String accno;
@@ -9,18 +11,6 @@ public class Account {
 
     // Call this method on the required actions. Paybills, withdraw, & deposit.
     Scanner sc = new Scanner(System.in);
-
-//    //method to open new account
-//    public void openAccount() {
-//        System.out.print("Enter Account No: ");
-//        accno = sc.next();
-//        System.out.print("Enter Account type: ");
-//        acc_type = sc.next();
-//        System.out.print("Enter Name: ");
-//        name = sc.next();
-//        System.out.print("Enter Balance: ");
-//        balance = sc.nextLong();
-//    }
 
     //method to display account details
     public void showBalance() {
@@ -36,6 +26,9 @@ public class Account {
         System.out.println("Enter the amount you want to deposit: ");
         amt = sc.nextLong();
         this.balance = this.balance + amt;
+        System.out.println("Transaction successful!!");
+        System.out.println("New Balance: " + this.balance);
+        addTransaction(this.balance,"Deposit Amount",TransactionType.CREDIT,this.acc_type);
     }
 
     //method to withdraw money
@@ -44,15 +37,18 @@ public class Account {
         System.out.println("Enter the amount you want to withdraw: ");
         amt = sc.nextLong();
         debitAmount(amt);
+        addTransaction(this.balance,"Withdraw Amount",TransactionType.DEBIT,this.acc_type);
     }
 
     private void debitAmount(long amt) {
         if (this.balance >= amt) {
             this.balance = this.balance - amt;
+            System.out.println("Transaction successful!!");
             System.out.println("Remaining Balance: " + this.balance);
         } else {
             System.out.println("Your balance is less than " + amt + "\tTransaction failed...!!");
         }
+        addTransaction(this.balance,"Debit Amount",TransactionType.DEBIT,this.acc_type);
     }
 
     public void transferAmount() {
@@ -64,31 +60,28 @@ public class Account {
 
         debitAmount(moneyToTransfer);
 
+        addTransaction(this.balance,"Transfer Amount",TransactionType.DEBIT,this.acc_type);
     }
 
     public void payBills() {
         System.out.println("Enter the recipient account number : $");
-        long moneyToTransfer = sc.nextLong();
+        String toAccount = sc.next();
+        System.out.println("Enter the bill amount:");
+        long billAmount = sc.nextLong();
 
-        debitAmount(moneyToTransfer);
+        debitAmount(billAmount);
 
+        addTransaction(this.balance,"Pay bills",TransactionType.DEBIT,this.acc_type);
     }
 
-    public boolean search(String ac_no) {
-        if (accno.equals(ac_no)) {
-            showBalance();
-            return (true);
-        }
-        return (false);
-    }
-
-    public static void addTransaction(double amount, String eventDescription, TransactionType eventType, String transactionID, String account) {
+    public void addTransaction(long amount, String eventDescription, TransactionType eventType, String account) {
+        UUID uuid = UUID.randomUUID();
+        String transactionID = uuid.toString();
         LocalDateTime date = LocalDateTime.now();
         Helper.setTransactionData(amount, eventDescription, eventType, transactionID, date, account);
     }
 
-
-    public static void getTransactionHistory() {
+    public void getTransactionHistory() {
         Helper.getTransactionData();
     }
 }
