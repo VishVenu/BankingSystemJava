@@ -1,8 +1,16 @@
 import java.io.*;
 import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class Helper {
-    static String clientCSVFilePath = "clients.csv";
+ static String clientCSVFilePath = "clients.csv";
+    static String transactionCSVFilePath = "./files/transactions.csv";
 
     private static List<List<String>> readFromCSV(String filePath) {
         List<List<String>> records = new ArrayList<>();
@@ -66,11 +74,35 @@ public class Helper {
             // write data
             writer.append(String.join(",", client));
             writer.append('\n');
+
+    public static void getTransactionData() {
+
+        List<List<String>> transactions = readFromCSV(transactionCSVFilePath);
+
+
+    };
+
+    public static void setTransactionData(double amount, String eventDescription, TransactionType eventType, String transactionID, LocalDateTime date) {
+        try {
+            // create a list of objects
+            List<String> transaction = Arrays.asList(String.valueOf(transactionID), String.valueOf(date), String.valueOf(eventType), eventDescription, String.valueOf(amount));
+
+            BufferedWriter writer = Files.newBufferedWriter(Path.of(transactionCSVFilePath));
+
+            // header
+            writer.write("Id,Date,Type,Description,Amount");
+            writer.newLine();
+
+            // write data
+            writer.write(String.join(",", transaction));
+            writer.newLine();
+
             writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
 
     public static void updateClientData(String oldEmail, String name, String phoneNumber, String emailID,
                                         String dateOfBirth,  String password,
