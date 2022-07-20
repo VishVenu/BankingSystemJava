@@ -27,12 +27,10 @@ public class Banking {
             case 1:
                 newRegistration();
             case 2:
-                //To REMOVE -
-//                currentUser.name = "vv";
-//                currentUser.password ="vv";
-//                currentUser.name = "vv";
-//                currentUser.password ="vv";
                 currentUser.loginUser();
+
+                //TODO: ADD LOGIC TO EXIT TO MAIN MENU IF VALIDATION FAILS
+
                 postLoginMenu();
                 break;
             case 3:

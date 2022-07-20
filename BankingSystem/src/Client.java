@@ -13,7 +13,7 @@ public class Client {
     public String securityQuestion;
     public String securityAnswer;
     public String postalCode;
-    public Date dateOfBirth;
+    public String dateOfBirth;
 
     Scanner in = new Scanner(System.in);
 
@@ -28,19 +28,20 @@ public class Client {
         System.out.print("Enter postal code: ");
         this.postalCode = in.nextLine();
         System.out.print("Enter date of birth(dd/MM/yyyy): ");
-        this.dateOfBirth = new SimpleDateFormat("dd/MM/yyyy").parse(in.nextLine());
+        this.dateOfBirth = in.nextLine();
         System.out.print("Enter password: ");
         this.password = in.nextLine();
         System.out.print("Enter security question: ");
         this.securityQuestion = in.nextLine();
         System.out.print("Enter security answer: ");
         this.securityAnswer = in.nextLine();
-        Helper.setClientData(this.name, this.phoneNumber, this.email, this.password, this.securityQuestion, this.securityAnswer,
-                this.postalCode, this.dateOfBirth);
+        Helper.setClientData(this.name, this.phoneNumber, this.email, this.dateOfBirth, this.password, this.securityQuestion, this.securityAnswer,
+                this.postalCode);
     }
 
     public void updateUser() throws ParseException {
         int userInput = 1;
+        String currentEmail = this.email;
         while (userInput != 9) {
             updateUserMenu();
             userInput = in.nextInt();
@@ -56,6 +57,10 @@ public class Client {
                 case 3:
                     System.out.print("Enter emailID: ");
                     this.email = in.next();
+                    if (!Helper.getClientData(this.email).isEmpty()) {
+                        this.email = currentEmail;
+                        System.err.println("Email already exists. Try another emailID.\n");
+                    }
                     break;
                 case 4:
                     System.out.print("Enter postal code: ");
@@ -63,7 +68,7 @@ public class Client {
                     break;
                 case 5:
                     System.out.print("Enter date of birth(dd/MM/yyyy): ");
-                    this.dateOfBirth = new SimpleDateFormat("dd/MM/yyyy").parse(in.next());
+                    this.dateOfBirth = in.next();
                     break;
                 case 6:
                     System.out.print("Enter password: ");
@@ -77,15 +82,18 @@ public class Client {
                     System.out.print("Enter security answer: ");
                     this.securityAnswer = in.next();
                     break;
-                case 9:
-                    System.out.print("User details updated successfully.");
-                    break;
+//                case 9:
+//                    System.out.println("User details updated successfully.");
+//                    break;
                 default:
-                    System.out.println("Please select a valid option.");
+                    if (userInput != 9)
+                        System.out.println("Please select a valid option.");
                     break;
             }
         }
-
+        Helper.updateClientData(currentEmail, this.name, this.phoneNumber, this.email, this.dateOfBirth, this.password, this.securityQuestion, this.securityAnswer,
+                this.postalCode);
+        System.out.println("User details updated successfully.");
     }
 
     private void updateUserMenu() {
@@ -160,17 +168,17 @@ public class Client {
         //TO REMOVE
         this.accountID = new ArrayList<>();
         validateUser(usernameInput,passwordInput);
-
     }
 
     private void validateUser(String username, String password) throws ParseException {
         //get the user data
         getUserData(username);
-        if(this.name.equals(username) && this.password.equals(password)){
+        if(this.email.equals(username) && this.password.equals(password)){
             System.out.println("Login Successful!!");
         }else{
             System.err.println("Login Failed!!");
         }
+        return;
     }
 
     public void performBankingTransactions() {
@@ -197,7 +205,7 @@ public class Client {
             this.name = clientData.get(0);
             this.phoneNumber = clientData.get(1);
             this.email = clientData.get(2);
-            this.dateOfBirth = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy",Locale.ENGLISH).parse(clientData.get(3));
+            this.dateOfBirth = clientData.get(3);
             this.password = clientData.get(4);
             this.securityQuestion = clientData.get(5);
             this.securityAnswer = clientData.get(6);
