@@ -29,8 +29,6 @@ public class Banking {
             case 2:
                 currentUser.loginUser();
 
-                //TODO: ADD LOGIC TO EXIT TO MAIN MENU IF VALIDATION FAILS
-
                 postLoginMenu();
                 break;
             case 3:
@@ -79,7 +77,6 @@ public class Banking {
     private static void updateUserDetails(){
         try {
             currentUser.updateUser();
-            showPostLoginMenu();
         } catch (Exception ex) {
             System.err.println(ex);
         }
