@@ -113,16 +113,21 @@ public class Client {
     public void resetPassword() throws ParseException {
         System.out.println("\nPlease enter your emailId: ");
         String email = in.next();
-                System.out.println("\nPlease enter your Date of Birth: ");
-        String dob = in.next();
         getUserData(email);
-        if (this.email != null && this.dateOfBirth.contains(dob)){
-            this.password = "123";
-            System.out.println("Your password has been reset to \"123\".\nPlease use update user option to update your password.");
-            Helper.updateClientData(email, this.name, this.phoneNumber, this.email, this.dateOfBirth, this.password, this.securityQuestion, this.securityAnswer,
-                    this.postalCode);
-        }
-        else {
+        if (this.email != null ) {
+            System.out.println(this.securityQuestion);
+            System.out.println("\nPlease enter the answer: ");
+            String ans = in.next();
+
+            if (this.securityAnswer.contains(ans)){
+                this.password = "123";
+                System.out.println("Your password has been reset to \"123\".\nPlease use update user option to update your password.");
+                Helper.updateClientData(email, this.name, this.phoneNumber, this.email, this.dateOfBirth, this.password, this.securityQuestion, this.securityAnswer,
+                        this.postalCode);
+            } else {
+                System.err.println("Incorrect answer.");
+            }
+        } else {
             System.err.println("Invalid emailId.");
         }
 
