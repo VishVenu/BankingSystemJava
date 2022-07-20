@@ -5,7 +5,7 @@ import java.util.*;
 public class Client {
 
     public int clientID;
-    public ArrayList<String> accountID;
+    public ArrayList<Account> accounts;
     public String name;
     public String phoneNumber;
     public String email;
@@ -125,21 +125,21 @@ public class Client {
         int accountTypeChoice = in.nextInt();
         switch (accountTypeChoice) {
             case 1:
-                generateAccountNumber();
+                generateAccountNumber("Chequing");
                 System.out.println("Chequing account created successfully.");
-                System.out.println(this.accountID.get(accountID.size()-1));
+                System.out.println(this.accounts.get(accounts.size()-1).accno);
                 break;
             case 2:
-                generateAccountNumber();
+                generateAccountNumber("Savings");
                 System.out.println("Savings account created successfully.");
-                System.out.println(this.accountID.get(accountID.size()-1));
+                System.out.println(this.accounts.get(accounts.size()-1).accno);
                 break;
             case 3:
                 break;
         }
     }
 
-    private void generateAccountNumber() {
+    private void generateAccountNumber(String accType) {
         int leftLimit = 10;
         // letter 'a'
         int rightLimit = 100;
@@ -152,9 +152,14 @@ public class Client {
             buffer.append(randomLimitedInt);
         }
         String generatedString = buffer.toString();
-        if (!this.accountID.contains(generatedString)) {
-            this.accountID.add(generatedString);
-        }
+
+        Account newAccount = new Account();
+        newAccount.name = this.name;
+        newAccount.acc_type = accType;
+        System.out.print("Enter Balance: ");
+        newAccount.balance = in.nextLong();
+        this.accounts.add(newAccount);
+
     }
 
     public void loginUser() throws ParseException {
@@ -165,8 +170,6 @@ public class Client {
         usernameInput = in.next();
         System.out.println("Enter Password:");
         passwordInput = in.next();
-        //TO REMOVE
-        this.accountID = new ArrayList<>();
         validateUser(usernameInput,passwordInput);
     }
 
@@ -184,18 +187,51 @@ public class Client {
     public void performBankingTransactions() {
         System.out.println("***************************************************");
         System.out.println("Please select one of the below banking transactions:");
-        System.out.println("1. Debit amount");
+        System.out.println("1. Withdraw amount");
         System.out.println("2. Pay bills");
         System.out.println("3. Transfer amount");
         System.out.println("4. Display balance");
-        System.out.println("5. Deposit");
+        System.out.println("5. Deposit Amount");
         System.out.println("6. Get transaction history");
         System.out.println("7. Exit");
         System.out.println("***************************************************");
         int transactionTypeChoice = in.nextInt();
-        switch (transactionTypeChoice) {
-            case 7:
-                break;
+        Account chequingAccount=new Account();
+        for (Account acc : this.accounts) {
+            if (acc.acc_type.equals("Chequing")) {
+                chequingAccount = acc;
+            }
+        }
+        if(chequingAccount!=null) {
+            switch (transactionTypeChoice) {
+                case 1:
+                    chequingAccount.withdrawAmount();
+                    break;
+                case 2:
+                    chequingAccount.payBills();
+                    break;
+                case 3:
+                    chequingAccount.transferAmount();
+                    break;
+                case 4:
+                    chequingAccount.showBalance();
+                    break;
+                case 5:
+                    chequingAccount.depositAmount();
+                    break;
+                case 6:
+                    //show transaction
+                    break;
+                case 7:
+                    break;
+            }
+
+            for (Account acc : this.accounts) {
+                if (acc.acc_type.equals("Chequing")) {
+                    acc.balance = chequingAccount.balance;
+                }
+            }
+
         }
     }
 

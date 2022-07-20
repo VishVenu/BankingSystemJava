@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -9,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Helper {
- static String clientCSVFilePath = "clients.csv";
+    static String clientCSVFilePath = "clients.csv";
     static String transactionCSVFilePath = "./files/transactions.csv";
 
     private static List<List<String>> readFromCSV(String filePath) {
@@ -54,8 +53,6 @@ public class Helper {
         return activeClient;
     }
 
-    ;
-
     public static void setClientData(String name, String phoneNumber, String emailID,
                                      String dateOfBirth, String password,
                                      String securityQuestion, String securityAnswer, String postalCode) {
@@ -74,15 +71,19 @@ public class Helper {
             // write data
             writer.append(String.join(",", client));
             writer.append('\n');
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void getTransactionData() {
 
         List<List<String>> transactions = readFromCSV(transactionCSVFilePath);
 
+    }
 
-    };
-
-    public static void setTransactionData(double amount, String eventDescription, TransactionType eventType, String transactionID, LocalDateTime date) {
+    public static void setTransactionData(double amount, String eventDescription, TransactionType
+            eventType, String transactionID, LocalDateTime date) {
         try {
             // create a list of objects
             List<String> transaction = Arrays.asList(String.valueOf(transactionID), String.valueOf(date), String.valueOf(eventType), eventDescription, String.valueOf(amount));
@@ -105,7 +106,7 @@ public class Helper {
 
 
     public static void updateClientData(String oldEmail, String name, String phoneNumber, String emailID,
-                                        String dateOfBirth,  String password,
+                                        String dateOfBirth, String password,
                                         String securityQuestion, String securityAnswer, String postalCode) {
         //read from csv first
         List<List<String>> clients = readFromCSV(clientCSVFilePath);
@@ -133,10 +134,6 @@ public class Helper {
                         client.get(3));
             }
         }
-    }
-
-    public static String updateAccountData(String accountData) {
-        return "test";
     }
 }
 
