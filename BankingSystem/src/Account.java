@@ -1,6 +1,7 @@
 import java.util.Scanner;
+import java.time.LocalDateTime;
 
-class Account
+public class Account
 {
 
     public String accno;
@@ -69,7 +70,18 @@ class Account
         }
         return (false);
     }
+ public static void addTransaction(double amount, String eventDescription, TransactionType eventType, String transactionID) {
+        LocalDateTime date = LocalDateTime.now();
 
+
+        Helper.setTransactionData(amount,eventDescription,eventType,transactionID,date);
+
+    }
+
+    public static void getTransactionHistory() {
+        // Lists the last 3 transactions.
+    }
 
 
 }
+
