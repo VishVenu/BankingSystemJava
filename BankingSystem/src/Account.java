@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 import java.time.LocalDateTime;
@@ -48,7 +50,6 @@ public class Account {
         } else {
             System.out.println("Your balance is less than " + amt + "\tTransaction failed...!!");
         }
-        addTransaction(this.balance,"Debit Amount",TransactionType.DEBIT,this.acc_type);
     }
 
     public void transferAmount() {
@@ -75,6 +76,7 @@ public class Account {
     }
 
     public void addTransaction(long amount, String eventDescription, TransactionType eventType, String account) {
+        createTransactionFile();
         UUID uuid = UUID.randomUUID();
         String transactionID = uuid.toString();
         LocalDateTime date = LocalDateTime.now();
@@ -83,6 +85,18 @@ public class Account {
 
     public void getTransactionHistory() {
         Helper.getTransactionData();
+    }
+
+    private void createTransactionFile() {
+        try {
+            File myObj = new File("transactions.csv");
+            if (!myObj.exists()) {
+                myObj.createNewFile();
+            }
+        }
+        catch (IOException ex){
+            System.err.println(ex);
+        }
     }
 }
 

@@ -54,7 +54,12 @@ public class Banking {
                     currentUser.createAccount();
                     break;
                 case 3:
-                    currentUser.performBankingTransactions();
+                    if(currentUser.accounts==null){
+                        System.out.println("Please create an account to proceed with banking transactions.");
+                        currentUser.createAccount();
+                    }else {
+                        currentUser.performBankingTransactions();
+                    }
                     break;
                 case 4:
                     preLoginMenu();
@@ -104,7 +109,7 @@ public class Banking {
         System.out.println("1. Update user details");
         System.out.println("2. Create new banking account");
         System.out.println("3. Perform banking transactions");
-        System.out.println("4. Exit");
+        System.out.println("4. Go back to previous menu");
         System.out.println("***************************************************");
     }
 }

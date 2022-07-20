@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Helper {
     static String clientCSVFilePath = "clients.csv";
-    static String transactionCSVFilePath = "./files/transactions.csv";
+    static String transactionCSVFilePath = "transactions.csv";
 
 
     private static List<String> readFromCSV(String filePath) {
@@ -69,7 +69,6 @@ public class Helper {
             System.out.println("Getting transaction history....");
             for (String element : transactions) {
                 System.out.println(element);
-
                 element.split(",");
             }
         }
@@ -156,12 +155,10 @@ public class Helper {
             List<String> transaction = Arrays.asList(String.valueOf(transactionID), String.valueOf(date), String.valueOf(eventType),account, eventDescription, String.valueOf(amount));
             BufferedReader br = new BufferedReader(new FileReader(transactionCSVFilePath));
 
-            System.out.println(br.readLine());
-
             if (br.readLine() == null) {
                 BufferedWriter writer = Files.newBufferedWriter(Path.of(transactionCSVFilePath));
                 // header for transactions csv.
-                writer.write("Id,Date,Type,Account,Description,Amount");
+                writer.write("Id,Date,Type,Account,Description,Amount,AccountType");
                 writer.newLine();
                 // write data
                 writer.write(String.join(",", transaction));
@@ -170,7 +167,6 @@ public class Helper {
             } else {
                 do {
                     String line = br.readLine();
-                    System.out.println("line" + line);
 
                     if (line == null) {
                         FileWriter fw = new FileWriter(transactionCSVFilePath,true);
@@ -183,7 +179,6 @@ public class Helper {
                     }
                 } while (true);
             }
-            System.out.println("Transaction saved in csv.");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -220,6 +215,13 @@ public class Helper {
                         client.get(7),
                         client.get(3));
             }
+        }
+    }
+
+    public static void createNewTransactionFile() {
+        File myObj = new File("transactions.csv");
+        if (myObj.exists()) {
+            myObj.delete();
         }
     }
 }

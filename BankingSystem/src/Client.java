@@ -110,10 +110,20 @@ public class Client {
         System.out.println("9. Go back");
     }
 
-    public void resetPassword() {
-        //add security check here
-        this.password = "123";
-        System.out.println("Your password has been reset to \"123\".\nPlease use update user option to update your password.");
+    public void resetPassword() throws ParseException {
+        System.out.println("\nPlease enter your emailId: ");
+        String email = in.next();
+        getUserData(email);
+        if (this.email != null){
+            this.password = "123";
+            System.out.println("Your password has been reset to \"123\".\nPlease use update user option to update your password.");
+            Helper.updateClientData(email, this.name, this.phoneNumber, this.email, this.dateOfBirth, this.password, this.securityQuestion, this.securityAnswer,
+                    this.postalCode);
+        }
+        else {
+            System.err.println("Invalid emailId.");
+        }
+
     }
 
     public void createAccount() {
@@ -176,6 +186,7 @@ public class Client {
         System.out.println("Enter Password:");
         passwordInput = in.next();
         validateUser(usernameInput,passwordInput);
+        Helper.createNewTransactionFile();
     }
 
     private void validateUser(String username, String password) throws ParseException {
