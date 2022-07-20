@@ -42,8 +42,8 @@ public class Client {
     public void updateUser() throws ParseException {
         int userInput = 1;
         String currentEmail = this.email;
+        updateUserMenu();
         while (userInput != 9) {
-            updateUserMenu();
             userInput = in.nextInt();
             switch (userInput) {
                 case 1:
@@ -90,6 +90,7 @@ public class Client {
                         System.out.println("Please select a valid option.");
                     break;
             }
+            updateUserMenu();
         }
         Helper.updateClientData(currentEmail, this.name, this.phoneNumber, this.email, this.dateOfBirth, this.password, this.securityQuestion, this.securityAnswer,
                 this.postalCode);
@@ -183,6 +184,7 @@ public class Client {
             System.out.println("Login Successful!!");
         }else{
             System.err.println("Login Failed!!");
+            System.exit(0);
         }
         return;
     }

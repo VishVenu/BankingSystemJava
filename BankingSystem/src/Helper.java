@@ -81,7 +81,7 @@ public class Helper {
         for (List<String> client : clients) {
             if (client.contains(email)) {
                 activeClient = (ArrayList<String>) client;
-                System.out.println(activeClient);
+                //System.out.println(activeClient);
                 break;
             }
         }
@@ -96,7 +96,10 @@ public class Helper {
             List<String> client = Arrays.asList(name, phoneNumber, emailID,
                     dateOfBirth, password,
                     securityQuestion, securityAnswer, postalCode);
-
+            File file = new File(clientCSVFilePath);
+            if (!file.exists()){
+                file.createNewFile();
+            }
             FileWriter writer = new FileWriter(clientCSVFilePath, true);
 
             //avoid duplication
@@ -106,6 +109,7 @@ public class Helper {
             // write data
             writer.append(String.join(",", client));
             writer.append('\n');
+            writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
