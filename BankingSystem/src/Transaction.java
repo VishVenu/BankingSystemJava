@@ -13,3 +13,4 @@ public class Transaction {
     TransactionType eventType = TransactionType.CREDIT;
     String account = "" // Chequing, Saving..
 }
+
