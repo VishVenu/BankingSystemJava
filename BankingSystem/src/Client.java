@@ -114,7 +114,7 @@ public class Client {
         System.out.println("\nPlease enter your emailId: ");
         String email = in.next();
         getUserData(email);
-        if (this.email != null){
+        if (this.email != null && this.dateOfBirth.contains(dob)){
             this.password = "123";
             System.out.println("Your password has been reset to \"123\".\nPlease use update user option to update your password.");
             Helper.updateClientData(email, this.name, this.phoneNumber, this.email, this.dateOfBirth, this.password, this.securityQuestion, this.securityAnswer,
