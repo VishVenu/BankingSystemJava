@@ -31,6 +31,34 @@ public class Helper {
         }
     }
 
+    private static List<List<String>> readFromCSVList(String filePath) {
+        List<List<String>> records = new ArrayList<>();
+
+        try {
+            Scanner scanner = new Scanner(new File(filePath));
+
+            while (scanner.hasNextLine()) {
+                records.add(getRecordFromLine(scanner.nextLine()));
+            }
+
+            return records;
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found! " + filePath);
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static List<String> getRecordFromLine(String line) {
+        List<String> values = new ArrayList<String>();
+        try (Scanner rowScanner = new Scanner(line)) {
+            rowScanner.useDelimiter(",");
+            while (rowScanner.hasNext()) {
+                values.add(rowScanner.next());
+            }
+        }
+        return values;
+    }
+
     // TODO: display output enhancement.
     public static void getTransactionData() {
         List<String> transactions = readFromCSV(transactionCSVFilePath);
@@ -47,16 +75,8 @@ public class Helper {
         }
     }
 
-
-        public static void setTransactionData(double amount, String eventDescription, TransactionType eventType, String transactionID, LocalDateTime date, String account) {
-            try {
-                // create a list of objects.
-                List<String> transaction = Arrays.asList(String.valueOf(transactionID), String.valueOf(date), String.valueOf(eventType),account, eventDescription, String.valueOf(amount));
-                BufferedReader br = new BufferedReader(new FileReader(transactionCSVFilePath));
-
     public static ArrayList<String> getClientData(String email) {
-
-        List<List<String>> clients = readFromCSV(clientCSVFilePath);
+        List<List<String>> clients = readFromCSVList(clientCSVFilePath);
         ArrayList<String> activeClient = new ArrayList<>();
         for (List<String> client : clients) {
             if (client.contains(email)) {
@@ -91,73 +111,88 @@ public class Helper {
         }
     }
 
-    public static void getTransactionData() {
+//    public static void getTransactionData() throws IOException {
+//
+//        System.out.println(br.readLine());
+//
+//
+//        if (br.readLine() == null) {
+//            BufferedWriter writer = Files.newBufferedWriter(Path.of(transactionCSVFilePath));
+//            // header for transactions csv.
+//            writer.write("Id,Date,Type,Account,Description,Amount");
+//            writer.newLine();
+//            // write data
+//            writer.write(String.join(",", transaction));
+//            writer.newLine();
+//            writer.close();
+//        } else {
+//            do {
+//                String line = br.readLine();
+//                System.out.println("line" + line);
+//
+//                if (line == null) {
+//                    FileWriter fw = new FileWriter(transactionCSVFilePath, true);
+//                    BufferedWriter writer = new BufferedWriter(fw);
+//                    writer.write(String.join(",", transaction));
+//
+//                    writer.newLine();
+//                    writer.close();
+//                    break;
+//                }
+//            } while (true);
+//        }
+//        System.out.println("Transaction saved in csv.");
+//
+//    }
 
-                System.out.println(br.readLine());
 
-
-                if (br.readLine() == null) {
-                    BufferedWriter writer = Files.newBufferedWriter(Path.of(transactionCSVFilePath));
-                    // header for transactions csv.
-                    writer.write("Id,Date,Type,Account,Description,Amount");
-                    writer.newLine();
-                    // write data
-                    writer.write(String.join(",", transaction));
-                    writer.newLine();
-                    writer.close();
-                } else {
-                    do {
-                        String line = br.readLine();
-                        System.out.println("line" + line);
-
-                        if (line == null) {
-                            FileWriter fw = new FileWriter(transactionCSVFilePath,true);
-                            BufferedWriter writer = new BufferedWriter(fw);
-                            writer.write(String.join(",", transaction));
-
-                            writer.newLine();
-                            writer.close();
-                            break;
-                        }
-                    } while (true);
-                }
-                System.out.println("Transaction saved in csv.");
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-    }
-
-    public static void setTransactionData(double amount, String eventDescription, TransactionType
-            eventType, String transactionID, LocalDateTime date) {
+    public static void setTransactionData(double amount, String eventDescription, TransactionType eventType, String transactionID, LocalDateTime date, String account) {
         try {
-            // create a list of objects
-            List<String> transaction = Arrays.asList(String.valueOf(transactionID), String.valueOf(date), String.valueOf(eventType), eventDescription, String.valueOf(amount));
+            // create a list of objects.
+            List<String> transaction = Arrays.asList(String.valueOf(transactionID), String.valueOf(date), String.valueOf(eventType),account, eventDescription, String.valueOf(amount));
+            BufferedReader br = new BufferedReader(new FileReader(transactionCSVFilePath));
 
-            BufferedWriter writer = Files.newBufferedWriter(Path.of(transactionCSVFilePath));
+            System.out.println(br.readLine());
 
-            // header
-            writer.write("Id,Date,Type,Description,Amount");
-            writer.newLine();
+            if (br.readLine() == null) {
+                BufferedWriter writer = Files.newBufferedWriter(Path.of(transactionCSVFilePath));
+                // header for transactions csv.
+                writer.write("Id,Date,Type,Account,Description,Amount");
+                writer.newLine();
+                // write data
+                writer.write(String.join(",", transaction));
+                writer.newLine();
+                writer.close();
+            } else {
+                do {
+                    String line = br.readLine();
+                    System.out.println("line" + line);
 
-            // write data
-            writer.write(String.join(",", transaction));
-            writer.newLine();
+                    if (line == null) {
+                        FileWriter fw = new FileWriter(transactionCSVFilePath,true);
+                        BufferedWriter writer = new BufferedWriter(fw);
+                        writer.write(String.join(",", transaction));
 
-            writer.close();
+                        writer.newLine();
+                        writer.close();
+                        break;
+                    }
+                } while (true);
+            }
+            System.out.println("Transaction saved in csv.");
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
 
+
     public static void updateClientData(String oldEmail, String name, String phoneNumber, String emailID,
                                         String dateOfBirth, String password,
                                         String securityQuestion, String securityAnswer, String postalCode) {
         //read from csv first
-        List<List<String>> clients = readFromCSV(clientCSVFilePath);
+        List<List<String>> clients = readFromCSVList(clientCSVFilePath);
         File file = new File(clientCSVFilePath);
         file.delete();
         //remove all occurence of oldEmail and add new data row again

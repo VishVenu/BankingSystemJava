@@ -11,6 +11,6 @@ public class Transaction {
     String eventDescription = "";
     double amount = 0.0;
     TransactionType eventType = TransactionType.CREDIT;
-    String account = "" // Chequing, Saving..
+    String account = "" ;// Chequing, Saving..
 }
 

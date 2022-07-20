@@ -8,24 +8,19 @@ public class Account {
     public long balance;
 
     // Call this method on the required actions. Paybills, withdraw, & deposit.
-    public static void addTransaction(double amount, String eventDescription, TransactionType eventType, String transactionID, String account) {
-        LocalDateTime date = LocalDateTime.now();
-
-        Helper.setTransactionData(amount,eventDescription,eventType,transactionID,date, account);
-
     Scanner sc = new Scanner(System.in);
 
-    //method to open new account
-    public void openAccount() {
-        System.out.print("Enter Account No: ");
-        accno = sc.next();
-        System.out.print("Enter Account type: ");
-        acc_type = sc.next();
-        System.out.print("Enter Name: ");
-        name = sc.next();
-        System.out.print("Enter Balance: ");
-        balance = sc.nextLong();
-    }
+//    //method to open new account
+//    public void openAccount() {
+//        System.out.print("Enter Account No: ");
+//        accno = sc.next();
+//        System.out.print("Enter Account type: ");
+//        acc_type = sc.next();
+//        System.out.print("Enter Name: ");
+//        name = sc.next();
+//        System.out.print("Enter Balance: ");
+//        balance = sc.nextLong();
+//    }
 
     //method to display account details
     public void showBalance() {
@@ -87,11 +82,11 @@ public class Account {
         return (false);
     }
 
-    public static void addTransaction(double amount, String eventDescription, TransactionType eventType, String transactionID) {
+    public static void addTransaction(double amount, String eventDescription, TransactionType eventType, String transactionID, String account) {
         LocalDateTime date = LocalDateTime.now();
-        Helper.setTransactionData(amount, eventDescription, eventType, transactionID, date);
-
+        Helper.setTransactionData(amount, eventDescription, eventType, transactionID, date, account);
     }
+
 
     public static void getTransactionHistory() {
         Helper.getTransactionData();

@@ -123,6 +123,9 @@ public class Client {
         System.out.println("3. Exit");
         System.out.println("***************************************************");
         int accountTypeChoice = in.nextInt();
+        if(this.accounts==null) {
+            this.accounts = new ArrayList<>();
+        }
         switch (accountTypeChoice) {
             case 1:
                 generateAccountNumber("Chequing");
